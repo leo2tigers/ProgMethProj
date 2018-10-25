@@ -8,23 +8,25 @@ import gameLogic.Skill;
 import math.Vector;
 
 public class Player extends Creature {
-
-	public Player() {
-		super();
-	}
 	
 	public Player(double maxHealth) {
-		super(maxHealth);
+		super("Player", maxHealth);
 	}
 	
 	@Override
 	public void getHit(Damage damage) {
+		
 		damage = damageReduction(damage);
 		this.setHealth(this.health - damage.point);
 		this.force.add(damage.force);
+		
 		if(this.health <= 0) {
 			this.isAlive = false;
 		}
+		else {
+			this.isAlive = true;
+		}
+		
 	}
 	
 	public Damage damageReduction(Damage damage) {
@@ -34,6 +36,7 @@ public class Player extends Creature {
 	}
 	
 	public boolean attack() {
+		
 		Skill normalAttack = new Skill(PlayerSkill.NORMAL_ATTACK, this.orientation);
 		Damage damage = normalAttack.damage;
 		Collider damageCollider = new RectangleCollider(
@@ -43,9 +46,10 @@ public class Player extends Creature {
 						this.position
 						)
 				);
-		System.out.println(this.name + " attacks with " + normalAttack.name + " {\n\tDamage = " + damage + "\n\tCollider = " + damageCollider + "\n}");
-		boolean isHit = false;
 		
+		System.out.println(this.name + " attacks with " + normalAttack.name + " {\n\tDamage = " + damage + "\n\tCollider = " + damageCollider + "\n}");
+		
+		boolean isHit = false;
 		for (Monster monster : this.currentMap.monsters) {
 			if(damageCollider.overlap(monster.hitBox)) {
 				isHit = true;
@@ -55,6 +59,7 @@ public class Player extends Creature {
 		}
 		
 		return isHit;
+		
 	}
 	
 	public void activateSkill(Skill skill) {

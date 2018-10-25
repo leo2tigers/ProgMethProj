@@ -4,16 +4,13 @@ import java.util.ArrayList;
 
 public class Map {
 	public String name;
+	public boolean gravityEnabled;
 	
-	protected boolean gravity;
+	public Player player;
 	
-	protected Player player;
-	
-	protected ArrayList<Monster> monsters;
-	
-	protected ArrayList<Platform> platforms;
-	
-	protected ArrayList<SpawnPoint> spawnPoints;
+	public ArrayList<Monster> monsters;
+	public ArrayList<Platform> platforms;
+	public ArrayList<SpawnPoint> spawnPoints;
 	
 	public Map() {
 		this.name = "";
@@ -30,33 +27,6 @@ public class Map {
 		this.spawnPoints = new ArrayList<SpawnPoint>();
 		System.out.println("GENERATE MAP " + this.name);
 	}
-	
-	public Player getPlayer() {
-		return player;
-	}
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	public ArrayList<Monster> getMonsters() {
-		return this.monsters;
-	}
-	public void setMonsters(ArrayList<Monster> monsters) {
-		this.monsters = monsters;
-	}
-	public ArrayList<Platform> getPlatforms() {
-		return platforms;
-	}
-	public void setPlatforms(ArrayList<Platform> platforms) {
-		this.platforms = platforms;
-	}
-	
-	public ArrayList<SpawnPoint> getSpawnPoints() {
-		return spawnPoints;
-	}
-
-	public void setSpawnPoints(ArrayList<SpawnPoint> spawnPoints) {
-		this.spawnPoints = spawnPoints;
-	}
 
 	public void addMonster(Monster monster) {
 		this.monsters.add(monster);
@@ -72,15 +42,4 @@ public class Map {
 				);
 	}
 	
-	public void enableGravity() {
-		this.gravity = true;
-	}
-	
-	public void disableGravity() {
-		this.gravity = false;
-	}
-	
-	public boolean isGravityEnabled() {
-		return this.gravity;
-	}
 }

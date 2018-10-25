@@ -40,7 +40,7 @@ public enum MonsterType {
 	
 	public Monster spawn(Vector position) {
 		Monster monster = new Monster(this.name, this, this.maxHealth, position);
-		monster.setHitBox(new RectangleCollider(this.hitBox, Vector.add(position, this.relativeCenter)));
+		monster.hitBox = new RectangleCollider(this.hitBox, Vector.add(position, this.relativeCenter));
 		return monster;
 	}
 	
