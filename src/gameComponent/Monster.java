@@ -6,9 +6,11 @@ import gameLogic.Damage;
 import gameLogic.Skill;
 import math.Vector;
 
-public class Monster extends Creature {
+import java.util.*;
+
+public class Monster extends Creature implements Cloneable {
 	
-	public MonsterType type;
+	private MonsterType type;
 	
 	public Monster(String name, MonsterType type, double maxHealth){
 		super(name, maxHealth);
@@ -22,7 +24,7 @@ public class Monster extends Creature {
 	}
 
 	@Override
-	public void getHit(Damage damage) {
+	protected void getHit(Damage damage) {
 		damage = this.damageReduction(damage);
 		System.out.println(this.name + " recieves " + damage + ".");
 		this.setHealth(this.health - damage.point);
@@ -40,8 +42,8 @@ public class Monster extends Creature {
 	
 	public boolean attack() {
 		
-		Skill attack = null; // waiting for edit in the future
-		Damage damage =attack.damage;
+		Skill attack = new Skill(); // waiting for edit in the future
+		Damage damage = attack.damage;
 		Collider damageCollider = new RectangleCollider(
 				attack.damageBox, 
 				Vector.add(
@@ -64,8 +66,33 @@ public class Monster extends Creature {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return this.type + " : " + super.toString();
 	}
-	
+
+	@Override
+	protected Monster clone() throws CloneNotSupportedException {
+		Monster clone = (Monster) super.clone();
+		clone.name = name;
+		clone.type = type;
+		clone.maxHealth = maxHealth;
+		clone.position = position.clone();
+
+		// Primitive
+		clone.mass = mass;
+		clone.health = health;
+		clone.armour = armour;
+		clone.attackPower = attackPower;
+		clone.isAlive = isAlive;
+
+		// Object
+		clone.velocity = velocity.clone();
+		clone.orientation = orientation.clone();
+		clone.force = (ArrayList<Vector>) force.clone();
+		clone.hitBox = hitBox.clone();
+
+		// Reference
+		clone.currentMap = currentMap;
+
+		return clone;
+	}
 }

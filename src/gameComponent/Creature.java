@@ -6,7 +6,7 @@ import collider.RectangleCollider;
 import gameLogic.Damage;
 import math.Vector;
 
-abstract class Creature extends GameComponent {
+abstract class Creature extends GameComponent{
 	public String name;
 	
 	protected double mass;
@@ -60,7 +60,7 @@ abstract class Creature extends GameComponent {
 		this.maxHealth = (maxHealth > 0) ? maxHealth : 0;
 	}
 	
-	abstract public void getHit(Damage damage);
+	protected abstract void getHit(Damage damage);
 	
 	private Vector totalForce() {
 		return Vector.add(Vector.add(force), Vector.multiply(Vector.Gravity, (this.currentMap.gravityEnabled) ? this.mass : 0));
@@ -96,5 +96,4 @@ abstract class Creature extends GameComponent {
 		// TODO Auto-generated method stub
 		return this.name + "\n\tHealth = " + this.health + " / " + this.maxHealth + "\n\tStatus = " + ((this.isAlive) ? "Alive" : "Dead") + "\n\tPosition = " + this.position;
 	}
-	
 }

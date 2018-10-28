@@ -2,7 +2,7 @@ package math;
 
 import java.util.ArrayList;
 
-public class Vector {
+public class Vector implements Cloneable {
 	public double x,y;
 	
 	public Vector() {
@@ -13,6 +13,11 @@ public class Vector {
 	public Vector(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public Vector(Vector V) {
+		this.x = V.x;
+		this.y = V.y;
 	}
 	
 	public double norm() {
@@ -63,5 +68,10 @@ public class Vector {
 			y += vector.y;
 		}
 		return new Vector(x, y);
+	}
+
+	@Override
+	public Vector clone() throws CloneNotSupportedException {
+		return new Vector(this);
 	}
 }

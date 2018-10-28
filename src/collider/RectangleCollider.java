@@ -4,7 +4,7 @@ import math.Box;
 import math.LinearEquation;
 import math.Vector;
 
-public class RectangleCollider extends Collider {	
+public class RectangleCollider extends Collider implements Cloneable {
 	protected Vector[] points;
 	
 	public RectangleCollider() {
@@ -41,6 +41,12 @@ public class RectangleCollider extends Collider {
 		};
 	}
 
+	public RectangleCollider(RectangleCollider rectangleCollider) {
+		super("RectangleCollider");
+
+		this.points = rectangleCollider.points.clone();
+	}
+
 	public Vector[] getPoints() {
 		return points;
 	}
@@ -59,7 +65,7 @@ public class RectangleCollider extends Collider {
 		}
 		center = Vector.multiply(center, 0.25);
 		
-		return this.center;
+		return center;
 	}
 	
 	public double[] getDimension() {
@@ -99,7 +105,6 @@ public class RectangleCollider extends Collider {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return this.type;
 	}
 
@@ -173,5 +178,10 @@ public class RectangleCollider extends Collider {
 			return false;
 		}
 		return isOverlapped;
+	}
+
+	@Override
+	public RectangleCollider clone() throws CloneNotSupportedException {
+		return new RectangleCollider(this);
 	}
 }
