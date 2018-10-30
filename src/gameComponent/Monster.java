@@ -1,19 +1,16 @@
 package gameComponent;
 
+import collider.Collider;
+import collider.RectangleCollider;
 import gameLogic.Damage;
+import gameLogic.Skill;
 import math.Vector;
 
-public class Monster extends Creature {
-	protected MonsterType type;
+import java.util.*;
+
+public class Monster extends Creature implements Cloneable {
 	
-	public Monster() {
-		super(1);
-	}
-	
-	public Monster(MonsterType type, double maxHealth){
-		super(maxHealth);
-		this.type = type;
-	}
+	private MonsterType type;
 	
 	public Monster(String name, MonsterType type, double maxHealth){
 		super(name, maxHealth);
@@ -25,17 +22,9 @@ public class Monster extends Creature {
 		this.type = type;
 		this.position = position;
 	}
-	
-	public MonsterType getType() {
-		return type;
-	}
-
-	public void setType(MonsterType type) {
-		this.type = type;
-	}
 
 	@Override
-	public void getHit(Damage damage) {
+	protected void getHit(Damage damage) {
 		damage = this.damageReduction(damage);
 		System.out.println(this.name + " recieves " + damage + ".");
 		this.setHealth(this.health - damage.point);
@@ -50,31 +39,60 @@ public class Monster extends Creature {
 		Vector newForce = Vector.multiply(damage.force, newDamage/damage.point);
 		return new Damage(newDamage, newForce);
 	}
-	/*
+	
 	public boolean attack() {
-		Damage damage = this.attackSkill.damage;
+		
+		Skill attack = new Skill(); // waiting for edit in the future
+		Damage damage = attack.damage;
 		Collider damageCollider = new RectangleCollider(
-				this.attackSkill.damageBox, 
+				attack.damageBox, 
 				Vector.add(
-						this.attackSkill.relativePosition,
+						attack.relativePosition,
 						this.position
 						)
 				);
+		
+		System.out.println(this.name + " attacks with " + attack.name + " {\n\tDamage = " + damage + "\n\tCollider = " + damageCollider + "\n}");
+		
 		boolean isHit = false;
-		
-		for (Monster monster : this.currentMap.monsters) {
-			if(damageCollider.overlap(monster.hitBox)) {
-				isHit = true;
-				monster.getHit(damage);
-			}
+		if (damageCollider.overlap(this.currentMap.player.hitBox)) {
+			isHit = true;
+			System.out.println("Hits Player!");
+			this.currentMap.player.getHit(damage);
 		}
-		
 		return isHit;
+		
 	}
-	*/
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return this.type + " : " + super.toString();
+	}
+
+	@Override
+	protected Monster clone() throws CloneNotSupportedException {
+		Monster clone = (Monster) super.clone();
+		clone.name = name;
+		clone.type = type;
+		clone.maxHealth = maxHealth;
+		clone.position = position.clone();
+
+		// Primitive
+		clone.mass = mass;
+		clone.health = health;
+		clone.armour = armour;
+		clone.attackPower = attackPower;
+		clone.isAlive = isAlive;
+
+		// Object
+		clone.velocity = velocity.clone();
+		clone.orientation = orientation.clone();
+		clone.force = (ArrayList<Vector>) force.clone();
+		clone.hitBox = hitBox.clone();
+
+		// Reference
+		clone.currentMap = currentMap;
+
+		return clone;
 	}
 }
