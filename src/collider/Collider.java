@@ -4,7 +4,6 @@ import math.Vector;
 
 abstract public class Collider {
 	protected final String type;
-	protected Vector center;
 	
 	public Collider(String type) {
 		this.type = type;

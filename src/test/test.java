@@ -10,47 +10,45 @@ public class test {
 	public static void main(String[] args) {
 		// Maps
 		Map map = new Map("0x01");
-		map.disableGravity();
+		map.gravityEnabled = false;
 		
 		// Player
 		Player player = new Player(1);
-		map.setPlayer(player);
+		map.player = player;
 		player.name = "player01";
 		player.setPosition(Vector.Origin);
 		player.orientation = new Vector(1, 0);
 		player.setMass(50);
-		player.setHitBox(
-				new RectangleCollider(
-						new Box(2, 2), 
-						Vector.add(
-								player.getPosition(), 
-								new Vector(0, 1)
-								)
+		player.hitBox = new RectangleCollider(
+				new Box(2, 2), 
+				Vector.add(
+						player.getPosition(), 
+						new Vector(0, 1)
 						)
 				);
-		player.setCurrentMap(map);
+		player.currentMap = map;
 		player.show();
 		
 		map.addSpawnPoint(new SpawnPoint(MonsterType.AMI, new Vector(2, 0), false));
 		
 		// Monster
 		map.spawnFromSpawnPoint(0);
-		Monster monster = map.getMonsters().get(0);
+		Monster monster = map.monsters.get(0);
 		monster.name = "monster01";
 		monster.orientation = new Vector(-1, 0);
 		monster.show();
-		System.out.println(monster.getHitBox());
+		System.out.println(monster.hitBox);
 		
 		// Event
 		player.attack();
 		ArrayList<Integer> deadIndex = new ArrayList<Integer>();
-		for(int i = 0; i < map.getMonsters().size(); i ++) {
-			if (!map.getMonsters().get(i).isAlive) {
+		for(int i = 0; i < map.monsters.size(); i ++) {
+			if (!map.monsters.get(i).isAlive) {
 				deadIndex.add(i);
 			}
 		}
 		for(int i = 0; i < deadIndex.size(); i ++) {
-			map.getMonsters().remove(deadIndex.get(i) - i);
+			map.monsters.remove(deadIndex.get(i) - i);
 		}
 	}
 }
